@@ -2,19 +2,15 @@ var pool = require('./db_connect');
 var express = require('express');
 var router = express.router;
 
-module.exports=function() {
+module.exports= function() {
         return {
             select: function (callback) {
                 pool.getConnection(function (err, con) {
                     var sql = 'select * from bwanalogtable where tagname="temp" ORDER BY LogDate DESC LIMIT 10';
-                    con.query(sql, function (err, result, fields) {
-                        con.release();
-
-                        if (err) return callback(err);
-
-                        callback(null, result);
-                        return result;
-                    });
+                    result = con.query(sql);
+                    console.log();
+                    con.release();
+                    return result;
                 });
             }, pool: pool,
 

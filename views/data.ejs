@@ -2,8 +2,9 @@
 <body>
     <p>데이터 추출결과</p>
     <table>
-        
-        <%var session_temp = 0;
+    
+        <%
+        var session_temp = target_temp[0].target_temp;
         if(session_temp===0){ %>
          <p>현재 등록된 온도가 없습니다</p>
         <%}else{%> 

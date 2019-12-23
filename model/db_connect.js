@@ -1,6 +1,5 @@
-var mysql = require('mysql');
+var mysql = require('mariadb');
 
-module.exports = function(){
     var config = require('./db_config');
     var pool = mysql.createPool({
         host:config.host,
@@ -9,12 +8,5 @@ module.exports = function(){
         database : config.database
     });
 
-    return{
-        getConnection : function(callback){
-            pool.getConnection(callback);
-        },
-        end : function(callback){
-            pool.end(callback);
-        }
-    }
-}();
+
+module.exports = pool;
