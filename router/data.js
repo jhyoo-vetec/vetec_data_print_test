@@ -6,7 +6,7 @@ var pool = require('../model/db_connect');
 
 router.get('/data_print', async function (req, res) {
   con = await pool.getConnection();
-    var sql = 'select * from bwanalogtable where tagname="temp" ORDER BY LogDate DESC LIMIT 10';
+    var sql = 'select * from bwanalogtable where tagname="temp" ORDER BY LogDate DESC, LogTime DESC LIMIT 10';
     data = await con.query(sql);
     sql ='select target_temp from target_temp where id =?';
     target_temp = await con.query(sql,["test_user"]);

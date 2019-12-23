@@ -4,11 +4,11 @@
     <table>
     
         <%
-        var session_temp = target_temp[0].target_temp;
-        if(session_temp===0){ %>
+        var session_temp = target_temp[0];
+        if(session_temp===undefined){ %>
          <p>현재 등록된 온도가 없습니다</p>
         <%}else{%> 
-         <p>현재 등록된 온도는 <%=session_temp%>입니다</p>
+         <p>현재 등록된 온도는 <%=session_temp.target_temp%>입니다</p>
         <%}%>
 
         <tr>
@@ -23,8 +23,11 @@
                 <tr>
                 <td><%=val.LogDate %></td>
                 <td><%=val.LogTime %></td>
-                <td><%=val.LastValue %></td>
-                <td></td>
+                <td><%=val.LastValue.toFixed(2) %></td>
+                <td><% if(val.LastValue>=session_temp.target_temp){%> <p style="color:red">위험</p><%}
+                    else if(session_temp===undefined){}
+                    else{%> <p style="color:green">정상</p><%}%>
+                </td>
                 </tr>
             <% }); %>
         </tr>

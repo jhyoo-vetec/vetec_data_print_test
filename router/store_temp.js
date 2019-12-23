@@ -14,12 +14,10 @@ router.post('/temp_store',async function(req,res){
 
     result = await con.query(query,[id]);
     if(result[0] === undefined){
-        console.log("111");
      query = "insert into target_temp values(?,?)";
      await con.query(query,[id,req.body.target_temp]);
     }
     else{
-        console.log("222");
         query = "update target_temp set target_temp =? where id=?";
         await con.query(query,[req.body.target_temp,id]);
     }
