@@ -1,6 +1,19 @@
+<style>
+    table {
+        border-style: solid;
+        border-radius: 1px;
+    }
+    table th,td{
+        border-style: solid;
+        border-radius: 1mm;
+    }
+</style>
+
 <html>
 <body>
     <p>데이터 추출결과</p>
+    <form action="/data_print" method="get">
+    <input type="date" name = "date" id="date">&nbsp<button>검색</button>
     <table>
     
         <%
@@ -17,8 +30,9 @@
             <th>온도</th>
             <th>알람</th>
             </tr>
-        
+            <%console.log(data.length)%>
             <% data.forEach(function(val){
+
                 %>
                 <tr>
                 <td><%=val.LogDate %></td>
@@ -31,10 +45,9 @@
                 </tr>
             <% }); %>
         </tr>
-        
-
+        <tr></tr>
     </table>
-
+</form>
     <p><a href="insert_temp">온도등록</a></p>
     <p><a href="adjust_temp">온도수정</a></p>
     <p><a href="init_temp">온도초기화</a></p>
