@@ -21,7 +21,8 @@ router.post('/temp_store',async function(req,res){
         query = "update target_temp set target_temp =? where id=?";
         await con.query(query,[req.body.target_temp,id]);
     }
-    res.redirect('/data_print');
+    con.release();
+    res.redirect('/data_print',{current_temp:1});
     
 });
 module.exports = router;

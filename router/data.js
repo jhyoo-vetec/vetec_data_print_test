@@ -1,15 +1,23 @@
 var express = require('express');
 var router = express.Router();
+var app = express();
 var mysql = require('mysql');
-// var sql = require('../model/db_sql')();
+var session = require('express-session');
 var pool = require('../model/db_connect');
 
 router.get('/data_print', async function (req, res) {
     var par=[];
     console.log("current_page:"+req.query.current_page);
+    
+    app.get('/', function(req, res){
+        sess = req.session;
+    });
+    let currentPage =1;
+    if(req.query.current_page!==undefined){
+        currentPage = req.query.current_page;  
+    }
 
-    let rowPerPage = 10;    // 페이지당 보여줄 글목록 : 10개
-    let currentPage = req.query.current_page;  
+    let rowPerPage = 20;    // 페이지당 보여줄 글목록 : 10개
     let beginRow =(currentPage-1)*rowPerPage;
     let model = {};
     if(req.query.date===undefined){
@@ -17,6 +25,8 @@ router.get('/data_print', async function (req, res) {
     }else{
         var sql = 'select * from bwanalogtable where tagname="temp" and date(logdate)= ? ORDER BY LogDate DESC, LogTime DESC LIMIT 100';
         var par=[req.query.date];
+        // sess.date = req.query.date;
+        // console.log("세션세션세션"+sess.date);
     }
     con = await pool.getConnection();
     

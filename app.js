@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser')
-
+var session = require('express-session');
 var app = express();
 var fs = require('fs');
 var router = express.Router();
@@ -12,20 +12,12 @@ var adjust_temp = require('./router/adjust_temp.js');
 
 app.use(bodyParser.urlencoded({extended: false}))
 
-app.get('/', function (req, res) {
+app.use(session({
+    secret: '@#@$MYSIGN#@$#$',
+    resave: false,
+    saveUninitialized: true
+   }));
 
-  fs.readdir('./data', function(error, filelist) {
-    var title = 'Welcome';
-    var description = 'Hello, Node.js';
-    var list = template.list(filelist);
-    var html = template.HTML(title, list,
-      `<h2>${title}</h2>${description}`,
-      `<a href="/create">create</a>`
-    );
-    res.send(html);
-
-  });
-});
 
 
 app.set('view engine', 'ejs');
@@ -36,6 +28,9 @@ app.get('/insert_temp',function(req,res){
 })
 app.get('/adjust_temp',adjust_temp);
 app.get('/data_print', dataRouter)
+// app.get('/data_print', function(req,res){
+//     res.render(dataRouter,{sess:req.session}
+// })
 app.post('/login_ok', login_ok)
 app.post('/temp_store',store_temp)
 app.get('/main', function (req, res) {
