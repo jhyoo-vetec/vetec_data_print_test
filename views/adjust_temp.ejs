@@ -1,0 +1,16 @@
+<html>
+    <body>
+        <p>목표온도</p>
+        <%
+        if(before_temp === undefined){
+            console.log(typeof(before_temp));
+            temp=" ";
+        }else{
+            temp = before_temp}%>
+        <form action="temp_store" method ="post"> 
+
+        <input type="text" id = "target_temp" name="target_temp" value="<%=temp%>">
+        <button>온도저장하기</button>
+        </form> 
+    </body>
+</html>
