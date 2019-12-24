@@ -13,6 +13,7 @@
 <body>
     <p>데이터 추출결과</p>
     <form action="/data_print" method="get">
+    <input type="hidden" name="current_page" id="current_page" value="1">
     <input type="date" name = "date" id="date">&nbsp<button>검색</button>
     <table>
     
@@ -24,13 +25,19 @@
          <p>현재 등록된 온도는 <%=session_temp.target_temp%>입니다</p>
         <%}%>
 
+        <% 
+        if(data[0]!==undefined){%>
         <tr>
             <th>날짜</th>
             <th>시간</th>
             <th>온도</th>
             <th>알람</th>
             </tr>
-            <% data.forEach(function(val){
+            <%
+            console.log(data[0]);
+            data = model.list;
+
+            data.forEach(function(val){
 
                 %>
                 <tr>
@@ -44,8 +51,16 @@
                 </tr>
             <% }); %>
         </tr>
-        <tr></tr>
+        <%}%>
     </table>
+    <%
+        console.log(model.lastPage);
+    for(i=1 ; i<model.lastPage ; i++){
+        %><a href="data_print?current_page=<%=i%>"><%=i%></a>
+        
+        <%
+    }%>
+
 </form>
     <p><a href="insert_temp">온도등록</a></p>
     <p><a href="adjust_temp">온도수정</a></p>
