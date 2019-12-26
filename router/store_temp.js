@@ -4,8 +4,6 @@ var mysql = require('mysql');
 var pool = require('../model/db_connect');
 
 router.post('/temp_store',async function(req,res){
-    console.log('store_temp_location');
-    console.log(req.body.target_temp);
     id="test_user";
 
     con = await pool.getConnection();

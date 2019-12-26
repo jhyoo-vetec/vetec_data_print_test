@@ -26,6 +26,7 @@
         <%}%>
 
         <% 
+        console.log("current_date "+current_date);
         if(data[0]!==undefined){%>
         <tr>
             <th>날짜</th>
@@ -34,7 +35,6 @@
             <th>알람</th>
             </tr>
             <%
-            console.log(data[0]);
             data = model.list;
 
             data.forEach(function(val){
@@ -54,9 +54,9 @@
         <%}%>
     </table>
     <%
-        console.log(model.lastPage);
     for(i=1 ; i<model.lastPage ; i++){
-        %><a href="data_print?current_page=<%=i%>"><%=i%></a>
+        %>
+        <a href="data_print?current_page=<%=i%>&date=<%=current_date%>"><%=i%></a>
         
         <%
     }%>
