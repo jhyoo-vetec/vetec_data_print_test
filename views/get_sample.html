@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>WebAccess Web Service Sample</title>
+</head>
+<script type="text/javascript" src="jquery-2.1.3.min.js"></script>
+<script type="text/javascript">
+var getTagValue = function(userName, passWord, projName, tagList) {
+    var userPass = window.btoa(userName + ":" + passWord); //"YWRtaW46dmV0ZWMx";
+    var dataParam = new Object();
+    var tagObjectList = new Array();
+	for (var i = 0; i < tagList.length; i++)
+    {
+		var tagObject = new Object();
+		tagObject["Name"] = tagList[i];
+		tagObjectList.push(tagObject);
+	}
+	dataParam["Tags"] = tagObjectList;
+	$.ajax({
+        url: "http://112.216.32.4/WaWebService/Json/GetTagValue/" + projName,
+        // url: "http://localhost/WaWebService/Json/GetTagValue/" + projName,
+        type: "POST",
+        cache: false,
+        async: false,
+        beforeSend: function(jqXHR, settings){
+        },
+	    dataType: "json",
+	    data: JSON.stringify(dataParam),
+	    success: function (data) {
+	        var resultStr = "";
+	        for (var i = 0; i < data["Values"].length; i++)
+	            resultStr += data["Values"][i]["Name"] + " = " + data["Values"][i]["Value"] + "<br>\r\n"
+			/*
+	        alert(resultStr);
+			*/
+			document.write(resultStr);
+		}
+	})
+}
+</script>
+<body>
+  <p>This is a get tag value sample code.</p>
+<script type="text/javascript">
+    var myUserName = "admin";
+    var myPassword = "vetec1";
+    var myProjName = "BOM";
+    var myTagList = ["PL1_Dmd_Time_S","PL1_kW_Pdc"];
+    getTagValue(myUserName, myPassword, myProjName, myTagList);
+</script>
+</body>
+</html>

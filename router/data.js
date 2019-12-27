@@ -4,6 +4,8 @@ var app = express();
 var mysql = require('mysql');
 var session = require('express-session');
 var pool = require('../model/db_connect');
+var btoa = require('btoa');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 router.get('/data_print', async function (req, res) {
     var par=[];
@@ -59,11 +61,46 @@ router.get('/data_print', async function (req, res) {
     model.currentPage=currentPage;
     model.lastPage = lastPage;
 
-    sql ='select target_temp from target_temp where id =?';
-    target_temp = await con.query(sql,["test_user"]);
+    var getTagValue = function (userName, passWord, projName, tagList) {
+        //var userPass = window.btoa(userName);
+        var data = userName + ":" + passWord
+        var userPass = btoa(data)
+        console.log("---------------------")
+        console.log(userPass)
+        var dataParam = new Object();
+        var tagObjectList = new Array();
+        for (var i = 0; i < tagList.length; i++) {
+            var tagObject = new Object();
+            tagObject["Name"] = tagList;
+            console.log(typeof (tagObject) + typeof (tagList));
+            tagObjectList.push(tagObject);
+        }
+
+
+        var url = "http://localhost/WaWebService/Json/GetTagValue/" + projName;
+        dataParam["Tags"] = tagObjectList;
+
+        var oReq = new XMLHttpRequest();
+        oReq.open('POST', url);
+        oReq.setRequestHeader("Authorization", "Basic " + userPass);
+        oReq.setRequestHeader("Accept", "application/json");
+        oReq.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        oReq.send(JSON.stringify(dataParam));
+        oReq.addEventListener('load', function () {
+            var result = JSON.parse(oReq.responseText);
+            console.log(result.Values[0].Value);
+            res.render('data',{tartget_temp:result.Values[0].Value});
+            
+        })
+    }
+    getTagValue('admin', 'vetec1', 'test', 'temp');
+
+
+    // sql ='select target_temp from target_temp where id =?';
+    // target_temp = await con.query(sql,["test_user"]);
 
     con.release();
-    res.render('data',{model:model,target_temp:target_temp,current_date:current_date});
+    res.render('data',{model:model,current_date:current_date});
   
   });
 module.exports = router;
