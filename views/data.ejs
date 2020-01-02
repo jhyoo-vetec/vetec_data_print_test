@@ -27,7 +27,7 @@
     
         <%
         var session_temp;
-        if(target_temp===undefined){ %>
+        if(target_temp===0){ %>
          <p>현재 등록된 온도가 없습니다</p>
         <%}else{ 
         var session_temp = target_temp;%>
@@ -59,7 +59,7 @@
                 <td><%=val.LogDate %></td>
                 <td><%=val.LogTime %></td>
                 <td><%=val.LastValue.toFixed(2) %></td>
-                        <td><% if(target_temp===undefined){}
+                        <td><% if(target_temp===0){}
                     else if(val.LastValue>=target_temp){%> <p style="color:red">위험</p><%}
                     else{%> <p style="color:green">정상</p><%}%>
                 </td>

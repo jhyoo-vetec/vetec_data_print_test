@@ -8,8 +8,8 @@ router.get('/init_temp',async function(req,res){
     con = await pool.getConnection();
     query = "delete from target_temp where id=?";
     await con.query(query,[id]);
-
-    res.redirect('/data_print',{current_page:1});
+    con.release();
+    res.redirect('/data_print');
     
 });
 

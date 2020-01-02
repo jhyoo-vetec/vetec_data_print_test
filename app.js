@@ -8,6 +8,7 @@ var dataRouter =require('./router/data.js')
 var login_ok = require('./model/login_ok.js')
 var store_temp = require('./router/store_temp.js')
 var adjust_temp = require('./router/adjust_temp.js');
+var init_temp = require('./router/init_temp.js');
 
 app.use(bodyParser.urlencoded({extended: false}))
 
@@ -21,6 +22,7 @@ app.get('/adjust_temp',adjust_temp);
 app.get('/data_print', dataRouter)
 app.post('/login_ok', login_ok)
 app.post('/temp_store',store_temp)
+app.get('/init_temp',init_temp);
 app.get('/main', function (req, res) {
 
   res.render('main.html');

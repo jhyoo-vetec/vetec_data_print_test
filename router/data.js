@@ -59,6 +59,12 @@ router.get('/data_print', async function (req, res) {
     
     sql ='select target_temp from target_temp where id =?';
     target_temp = await con.query(sql,["test_user"]);
+    console.log(typeof(target_temp[0]));
+    if(target_temp[0]===undefined){
+        target_temp=0;
+    }else{
+        target_temp = target_temp[0].target_temp;
+    }
     con.release();
 
     model.list = data;
@@ -73,6 +79,7 @@ router.get('/data_print', async function (req, res) {
         console.log(userPass)
         var dataParam = new Object();
         var tagObjectList = new Array();
+
         for (var i = 0; i < tagList.length; i++) {
             var tagObject = new Object();
             tagObject["Name"] = tagList;
@@ -92,7 +99,7 @@ router.get('/data_print', async function (req, res) {
         oReq.addEventListener('load', function () {
             var result = JSON.parse(oReq.responseText);
             console.log(result.Values[0].Value);  
-            res.render('data',{model:model,current_date:current_date,target_temp:target_temp[0].target_temp,current_temp:result.Values[0].Value});
+            res.render('data',{model:model,current_date:current_date,target_temp:target_temp,current_temp:result.Values[0].Value});
             
         })
     }
