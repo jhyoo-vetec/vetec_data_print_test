@@ -57,6 +57,10 @@ router.get('/data_print', async function (req, res) {
 
     data = await con.query(sql,par);
     
+    sql ='select target_temp from target_temp where id =?';
+    target_temp = await con.query(sql,["test_user"]);
+    con.release();
+
     model.list = data;
     model.currentPage=currentPage;
     model.lastPage = lastPage;
@@ -72,7 +76,6 @@ router.get('/data_print', async function (req, res) {
         for (var i = 0; i < tagList.length; i++) {
             var tagObject = new Object();
             tagObject["Name"] = tagList;
-            console.log(typeof (tagObject) + typeof (tagList));
             tagObjectList.push(tagObject);
         }
 
@@ -88,19 +91,15 @@ router.get('/data_print', async function (req, res) {
         oReq.send(JSON.stringify(dataParam));
         oReq.addEventListener('load', function () {
             var result = JSON.parse(oReq.responseText);
-            console.log(result.Values[0].Value);
-            res.render('data',{tartget_temp:result.Values[0].Value});
+            console.log(result.Values[0].Value);  
+            res.render('data',{model:model,current_date:current_date,target_temp:target_temp[0].target_temp,current_temp:result.Values[0].Value});
             
         })
     }
     getTagValue('admin', 'vetec1', 'test', 'temp');
 
 
-    // sql ='select target_temp from target_temp where id =?';
-    // target_temp = await con.query(sql,["test_user"]);
 
-    con.release();
-    res.render('data',{model:model,current_date:current_date});
   
   });
 module.exports = router;

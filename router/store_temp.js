@@ -20,7 +20,7 @@ router.post('/temp_store',async function(req,res){
         await con.query(query,[req.body.target_temp,id]);
     }
     con.release();
-    res.redirect('/data_print',{current_temp:1});
+    res.redirect('/data_print');
     
 });
 module.exports = router;
